@@ -11,7 +11,8 @@
                 </div>
                 <div class="row g-5">
                     <div class="col-md-5 col-lg-4 order-md-last">
-                        <h4 class="d-flex justify-content-between align-items-center mb-3"><span class="text-primary">구입 목록</span><span class="badge bg-primary rounded-pill">3</span></h4>
+                        <h4 class="d-flex justify-content-between align-items-center mb-3"><span class="text-primary">구입 목록</span>
+                            <span class="badge bg-primary rounded-pill">{{state.items.length}}</span></h4>
                         <ul class="list-group mb-3">
                             <li class="list-group-item d-flex justify-content-between lh-sm" v-for="(i,idx) in state.items" :key="idx">
                                 <div>
@@ -34,36 +35,36 @@
                 </div>
                 <div class="col-md-7 col-lg-8">
                     <h4 class="mb-3">주문자 정보</h4>
-                    <form class="needs-validation" novalidate="">
+                    <div class="needs-validation" novalidate="">
                         <div class="row g-3">
                             <div class="col-12"><label for="username" class="form-label">이름</label>
-                                <input type="text" class="form-control" id="username" placeholder="Username"
-                                        required="">
+                                <input type="text" class="form-control" id="username"
+                                        v-model="state.form.name">
                             </div>
                             <div class="col-12"><label for="address" class="form-label">주소</label><input
-                                    type="text" class="form-control" id="address" placeholder="1234 Main St"
-                                    required="">
+                                    type="text" class="form-control" id="address"
+                                    v-model="state.form.address">
                             </div>
                         </div>
                         <hr class="my-4">
                         <hr class="my-4">
                         <h4 class="mb-3">결제수단</h4>
                         <div class="my-3">
-                            <div class="form-check"><input id="credit" name="paymentMethod" type="radio"
-                                    class="form-check-input" checked="" required=""><label class="form-check-label"
-                                    for="credit">신용카드</label></div>
-                            <div class="form-check"><input id="debit" name="paymentMethod" type="radio"
-                                    class="form-check-input" required=""><label class="form-check-label"
-                                    for="debit">무통장 입금</label></div>
-                            <div class="form-check"><input id="paypal" name="paymentMethod" type="radio"
-                                    class="form-check-input" required=""><label class="form-check-label"
-                                    for="paypal">카카오페이</label></div>
+                            <div class="form-check"><input id="card" name="paymentMethod" type="radio"
+                                    class="form-check-input" value="card" v-model="state.form.payment"><label class="form-check-label"
+                                    for="card">신용카드</label></div>
+                            <div class="form-check"><input id="bank" name="paymentMethod" type="radio"
+                                    class="form-check-input" value="bank" v-model="state.form.payment"><label class="form-check-label"
+                                    for="bank">무통장 입금</label></div>
+                            <div class="form-check"><input id="kakao" name="paymentMethod" type="radio"
+                                    class="form-check-input" value="kakao" v-model="state.form.payment"><label class="form-check-label"
+                                    for="kakao">카카오페이</label></div>
                         </div>
                             <label for="cc-name" class="form-label">카드 번호</label>
-                            <input type="text" class="form-control" id="cc-name" placeholder="" required="">
+                            <input type="text" class="form-control" id="cc-name" v-model="state.form.cardNumber">
                         <hr class="my-4">
-                        <button class="w-100 btn btn-primary btn-lg" type="submit">결제하기</button>
-                    </form>
+                        <button class="w-100 btn btn-primary btn-lg" @click="submit">결제하기</button>
+                    </div>
                 </div>
             </div>
         </main>
@@ -78,8 +79,23 @@ import lib from '@/scripts/lib';
 export default {
     setup() {
         const state = reactive({
-                items: []
+                items: [],
+                form:{
+                    name:"",
+                    address:"",
+                    payment:"",
+                    cardNumber:"",
+                    items:"",
+                }
         })
+        const submit =()=>{
+            const args = JSON.parse(JSON.stringify(state.form));
+            args.items = JSON.stringify(state.items);
+
+            axios.post("api/orders", args).then(({ data }) => {
+                console.log(data);
+            })
+        }
         const load = () => {
             axios.get("api/cart/items").then(({ data }) => {
                 console.log(data);
@@ -96,7 +112,7 @@ export default {
 
         load();
 
-        return { state, lib, computedPrice }
+        return { state, lib, computedPrice ,submit}
     }
 }
 </script>
