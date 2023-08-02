@@ -12,11 +12,19 @@
               <li v-if="$store.state.account.id">
                 <router-link to="/orders" class="text-white"> 주문 내역</router-link>                
               </li>
+              
+              <li v-if="$store.state.account.role==='seller'">
+                <router-link to="/item/add" class="text-white"> 상품 등록하기</router-link>                
+              </li>
+
               <li>
                 <router-link to="/login" class="text-white" v-if="!$store.state.account.id"> 로그인</router-link>
                 <a to="/login" class="text-white" @click="logout()" v-else>로그아웃</a>
-                <!-- <router-link to="/login" class="text-white"> 로그인</router-link> -->
               </li>
+              <li v-if="!$store.state.account.id">
+                <router-link to="/signup" class="text-white"> 회원가입</router-link>                
+              </li>
+              
          
             </ul>
           </div>
