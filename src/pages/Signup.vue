@@ -26,13 +26,13 @@
 		<p>생성할 계정 정보를 입력해주세요</p>
 		<hr>
         <div class="form-group">
-            <input type="email" class="form-control" id="floatingInput" placeholder="Email" @keyup.enter="submit()" v-model="state.form.email">
+            <input type="email" class="form-control" id="floatingInput" placeholder="Email *" @keyup.enter="submit()" v-model="state.form.email">
         </div>
 		<div class="form-group">
-            <input type="password" class="form-control" id="floatingPassword" placeholder="Password" @keyup.enter="submit()" v-model="state.form.password">
+            <input type="password" class="form-control" id="floatingPassword" placeholder="Password *" @keyup.enter="submit()" v-model="state.form.password">
         </div>
 		<div class="form-group">
-            <input type="password" class="form-control" id="floatingConfirmPassword" name="confirm_password" placeholder="Confirm Password" @keyup.enter="submit()" v-model="state.form.confirmPassword">
+            <input type="password" class="form-control" id="floatingConfirmPassword" name="confirm_password" placeholder="Confirm Password *" @keyup.enter="submit()" v-model="state.form.confirmPassword">
         <div class="form-group">
             <input type="checkbox" v-model="state.form.role" true-value="seller" false-value="user"> 판매자로 가입하기
         </div>        
@@ -49,7 +49,6 @@
 <script>
 import { reactive } from 'vue'
 import axios from 'axios'
-import store from "@/scripts/store"
 import router from '@/scripts/router'
 
 export default {
@@ -69,17 +68,18 @@ export default {
                 return
             }
 
-            axios.post("/api/account/signup", state.form).then((res)=>{
-                store.commit('setAccount', res.data);
-                sessionStorage.setItem("id", res.data);
+            axios.post("/api/account/signup", state.form).then(()=>{
                 router.push({path: '/'})
                 // console.log(res);
                 window.alert("회원 가입되었습니다.");
             }).catch(error=>{
-                console.log(error.res)
-                window.alert("아이디 중복입니다.")
+                console.log(error)
+                let cardList = new Array();
+                cardList = error.response.data;
+                window.alert(cardList);
             });
         }
+
         return {state, submit}
     }
 }
