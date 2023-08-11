@@ -18,7 +18,7 @@
                         <td>{{o.address}}</td>
                         <td>{{o.payment}}</td>
                         <td>
-                            <div v-for="(i, idx2) in o.items" :key="idx2">{{i.name }}</div>    
+                            <div v-for="(i, idx2) in o.items" :key="idx2">{{i.name}}</div>    
                         </td>
 
                     </tr>

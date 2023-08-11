@@ -4,6 +4,8 @@ import Cart from "@/pages/Cart";
 import Order from "@/pages/Order";
 import Orders from "@/pages/Orders";
 import Signup from "@/pages/Signup";
+import PushItem from "@/pages/PushItem";
+// import Seller from "@/pages/Seller";
 
 import { createRouter, createWebHistory } from 'vue-router/dist/vue-router';
 
@@ -13,7 +15,10 @@ const routes = [
     {path:'/cart',component: Cart},
     {path:'/order',component: Order},
     {path:'/orders',component: Orders},
-    {path:'/signup',component: Signup}
+    {path:'/signup',component: Signup},
+    {path:'/pushItem',component: PushItem},
+    // {path:'/seller',component: Seller}
+
 
 ]
 const router = createRouter({
