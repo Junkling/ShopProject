@@ -2,12 +2,9 @@
     <div class="order">
         <div class="container">
             <main>
-                <div class="py-5 text-center"><img class="d-block mx-auto mb-4"
-                        src="/docs/5.0/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
+                <div class="py-5 text-center">
                     <h2>주문하기</h2>
-                    <p class="lead">Below is an example form built entirely with Bootstrap’s form controls. Each required
-                        form group has a validation state that can be triggered by attempting to submit the form without
-                        completing it.</p>
+                    
                 </div>
                 <div class="row g-5">
                     <div class="col-md-5 col-lg-4 order-md-last">
@@ -81,19 +78,26 @@ export default {
     setup() {
         const state = reactive({
                 items: [],
+                itemIds:[],
                 form:{
                     name:"",
                     address:"",
                     payment:"",
                     cardNumber:"",
                     items:"",
+                    itemIds:[]
                 }
         })
+        
         const submit =()=>{
+            state.form.itemIds = state.items.map((item) => item.id);
+            // state.form.items = JSON.stringify(state.items.map((item) => item.name));
+
             const args = JSON.parse(JSON.stringify(state.form));
             args.items = JSON.stringify(state.items);
 
-            axios.post("api/orders", args).then(() => {
+            axios.post("api/orders",args).then(() => {
+                console.log(args);
                 alert('주문 완료하였습니다.');
                 router.push({path:"/orders"});
             })
@@ -111,6 +115,7 @@ export default {
             }
             return result;
         })
+        
 
         load();
 
