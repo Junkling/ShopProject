@@ -53,39 +53,13 @@ import axios from 'axios';
 // import { reactive } from 'vue';
 // import lib from '@/scripts/lib';
 import router from '@/scripts/router';
+// import store from '@/scripts/store';
+// import { instanceWithAuth } from '@/api/index';
+// axios.interceptors.request.use((config)=>
+// {
+//     return config;
+// })
 
-// export default {
-//         data() {
-//         const state = reactive({
-//                 form:{
-//                     name:"",
-//                     price:0,
-//                     discountPer:0,
-//                     quantity:0,
-//                     imageFiles:null,
-//                     imageUploaded: null
-//                 },
-        
-//         })
-        
-//         const submit =()=>{
-            
-//             axios.post("api/seller/items",state).then((data) => {
-//                 console.log(data);
-//                 alert('상품 등록 완료되었습니다.');
-//                 router.push({path:"/"});
-//             })
-//         }
-//         const changeFile=(e)=>{
-//             state.form.imageFiles = e.target.imageFiles[0];
-//             console.log(e.target.imageFiles);
-//         }
-        
-        
-//         return { state, lib ,submit, changeFile}
-//     }
-    
-// }
 export default {
   components: {},
   data() {
@@ -130,15 +104,15 @@ export default {
       // blob으로 바꾼 dto랑 사용자가 입력한 이미지 formData에 append함
       formData.append('itemRequest', dtoToBlob)
       formData.append('image', this.image)
-
-    //   const config = {
-    //     headers: {
-    //       Authorization: 'Bearer ' + this.$store.state.loginStore.token,
-    //       'Content-Type': 'multipart/form-data' // 컨텐츠 타입 지정해줘야함
-    //     }
-    //   }
+      // instanceWithAuth.post('api/seller/items', formData,{ withCredentials: true })
+      //   .then((res) => {
+      //     alert('생성 완료')
+      //     console.log(res.data)
+      //     router.push({path:"/"});
+      //   })
+      
       axios
-        .post('api/seller/items', formData)
+        .post('api/seller/items', formData,{ withCredentials: true })
         .then((res) => {
           alert('생성 완료')
           console.log(res.data)

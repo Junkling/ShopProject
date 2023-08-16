@@ -37,8 +37,10 @@ export default {
         })
         const submit = () =>{
             axios.post("/api/account/login", state.form).then((res)=>{
+                console.log(res.data);
                 store.commit('setAccount', res.data);
-                sessionStorage.setItem("id", res.data);
+                // store.commit('setAuth');
+                sessionStorage.setItem("id", res.data.id);
                 router.push({path: '/'})
                 // console.log(res);
                 window.alert("로그인 되었습니다.");
