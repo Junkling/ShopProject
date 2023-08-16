@@ -30,6 +30,7 @@ import Card from "@/components/Card";
 import axios from "axios";
 import {reactive} from "vue";
 
+
 export default {
     name : "Home",
     components: {
