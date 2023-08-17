@@ -53,12 +53,9 @@ import axios from 'axios';
 // import { reactive } from 'vue';
 // import lib from '@/scripts/lib';
 import router from '@/scripts/router';
-// import store from '@/scripts/store';
+import store from '@/scripts/store';
 // import { instanceWithAuth } from '@/api/index';
-// axios.interceptors.request.use((config)=>
-// {
-//     return config;
-// })
+
 
 export default {
   components: {},
@@ -110,7 +107,6 @@ export default {
       //     console.log(res.data)
       //     router.push({path:"/"});
       //   })
-      
       axios
         .post('api/seller/items', formData,{ withCredentials: true })
         .then((res) => {
