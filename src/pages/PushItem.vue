@@ -28,17 +28,6 @@
                             </div>
                            
                         </div>
-                        <!-- <hr class="my-4"> 
-                        <hr class="my-4"> -->
-                        <!-- <h4 class="mb-3">공개여부</h4> -->
-                        <!-- <div class="my-3">
-                            <div class="form-check"><input id="card" name="paymentMethod" type="radio"
-                                    class="form-check-input" value="card" v-model="state.form.payment"><label class="form-check-label"
-                                    for="card">공개</label></div>
-                            <div class="form-check"><input id="bank" name="paymentMethod" type="radio"
-                                    class="form-check-input" value="bank" v-model="state.form.payment"><label class="form-check-label"
-                                    for="bank">비공개</label></div>
-                        </div> -->
                             <hr class="my-4">
                         <button class="w-100 btn btn-primary btn-lg" @click="submitPost">등록하기</button>
                     </div>
@@ -50,11 +39,7 @@
 
 <script>
 import axios from 'axios';
-// import { reactive } from 'vue';
-// import lib from '@/scripts/lib';
 import router from '@/scripts/router';
-import store from '@/scripts/store';
-// import { instanceWithAuth } from '@/api/index';
 
 
 export default {
@@ -77,36 +62,25 @@ export default {
     upload() {
       this.image = this.$refs.image.files[0] // 사용자가 올린 이미지
       console.log(this.image)
-      // URL.createObjectURL로 사용자가 올린 이미지를 URL로 만들어서 화면에 표시할 수 있게 한다. img 태그의 src값에 바인딩해준다
       this.imageUploaded = URL.createObjectURL(this.image)
     },
     submitPost() {
-      // 원래 있던 dto랑 이미지를 UserFormData에 넣어서 axios로 보내야함
 
-      // const vm = this
       const dto = {
         name: this.name,
         price: this.price,
         discountPer:this.discountPer,
         quantity:this.quantity,
       }
-      // 먼저 dto를 blob으로 바꿈
+
       const dtoToBlob = new Blob([JSON.stringify(dto)], {
         type: 'application/json'
       })
 
-      // FormData를 만듬
       var formData = new FormData()
 
-      // blob으로 바꾼 dto랑 사용자가 입력한 이미지 formData에 append함
       formData.append('itemRequest', dtoToBlob)
       formData.append('image', this.image)
-      // instanceWithAuth.post('api/seller/items', formData,{ withCredentials: true })
-      //   .then((res) => {
-      //     alert('생성 완료')
-      //     console.log(res.data)
-      //     router.push({path:"/"});
-      //   })
       axios
         .post('api/seller/items', formData,{ withCredentials: true })
         .then((res) => {
