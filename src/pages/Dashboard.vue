@@ -25,13 +25,13 @@
               <li class="nav-item">
                 <a class="nav-link" href="#">
                   <span data-feather="file"></span>
-                  Orders
+                  Products
                 </a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#">
                   <span data-feather="shopping-cart"></span>
-                  Products
+                  Orders
                 </a>
               </li>
               <li class="nav-item">
@@ -64,8 +64,22 @@
                 <span data-feather="calendar"></span>
                 This week
               </button>
+                <div class="form-floating">
+                    <input type="name" class="form-control" id="floatingInput" placeholder="상품이름" @keyup.enter="submit()" v-model="state.form.name">
+                    <label for="floatingInput">Item Name</label>
+                </div>
+                <button class="btn btn-primary w-10 py-2" @click="submit()">검색</button>
             </div>
           </div>
+          <div class="album py-5 bg-body-tertiary">
+            <div class="container">
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                    <div class="col" v-for="(item, idx) in state.items" :key="idx">
+                    <Card :item = "item"/>
+                </div>
+                </div>
+            </div>
+            </div>
 
           <canvas class="my-4" id="myChart" width="900" height="380"></canvas>
 
@@ -202,8 +216,44 @@
     </div>
 </body>
 </template>
-    <script>
-        // import axios from 'axios';
-        // import router from '@/scripts/router';
-    </script>
+<script>
+import Card from "@/components/Card";
+import axios from "axios";
+import {reactive} from "vue";
+import router from '@/scripts/router'
+
+
+export default {
+    name : "Dashboard",
+    components: {
+        Card
+    },
+    
+    setup(){
+        const state = reactive({
+            items:[],
+            form:{
+                name:"",
+                sellerId: 0,
+                category:""
+            }
+        })
+        axios.get("/api/dashboard/items").then((res) => {
+            state.items = res.data;
+        })
+        const submit = () =>{
+                axios.post("/api/dashboard/items", state.form).then((res) => {
+                console.log(state.form.name);
+                state.items = res.data;
+                router.push({path: '/dashboard'})
+            })
+        }
+       
+        return {state,submit}
+    }
+}
+</script>
+<style scoped>
+
+</style>
 
