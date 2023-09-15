@@ -24,8 +24,11 @@
               <li v-if="!$store.state.account.id">
                 <router-link to="/signup" class="text-white"> 회원가입</router-link>                
               </li>
-              
-         
+            </ul>
+            <ul class="list-unstyled">              
+              <li v-if="$store.state.account.role==='seller'">
+                <router-link to="/dashboard" class="text-white"> 판매자 페이지</router-link>                
+              </li>
             </ul>
           </div>
         </div>
