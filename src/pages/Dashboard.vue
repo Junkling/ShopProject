@@ -99,7 +99,7 @@
                 <tr v-for="(i, idx1) in state.items" :key="idx1">
                         <td>{{state.items.length - idx1}}</td>
                         <td>
-                          <router-link :to="`/product/${i.id}`" class="text-black"> {{i.name}}</router-link>
+                          <button @click="peek(i.id)">{{i.name}}</button>
                         </td>
                         <td>{{i.price}}원</td>
                         <td>{{lib.getNumberFormatted(i.price - Math.ceil((i.price*i.discountPer/100)))}}원</td>
@@ -118,6 +118,7 @@ import Card from "@/components/Card";
 import axios from "axios";
 import {reactive} from "vue";
 import router from '@/scripts/router'
+import store from '@/scripts/store'
 import lib from '@/scripts/lib';
 
 export default {
@@ -133,7 +134,8 @@ export default {
                 name:"",
                 sellerId: 0,
                 category:""
-            }
+            },
+            itemId:0
         })
         axios.get("/api/dashboard/items").then((res) => {
             state.items = res.data;
@@ -145,8 +147,16 @@ export default {
                 router.push({path: '/dashboard'})
             })
         }
+
+        const peek = (req) =>{
+          axios.get("api/seller/item", req).then((res)=>{
+            console.log(req)
+            store.commit("setItem", res.data)
+            router.push({path: '/product'})
+          })
+        }
        
-        return {state,submit,lib}
+        return {state,submit,lib,peek,store}
     }
 }
 </script>

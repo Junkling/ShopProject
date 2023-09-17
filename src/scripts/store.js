@@ -8,6 +8,14 @@ const store = createStore({
             email :"",
             role : "",
             auth:""
+        },
+        item: {
+          id: 0,
+          name :"",
+          imgPath : "",
+          price : 0,
+          discountPer:0,
+          quantity: 0
         }
     }
   },
@@ -18,6 +26,13 @@ const store = createStore({
         state.account.role = payload.role;
         state.account.auth = payload.auth;
       },
+      setItem(state, payload){
+        state.item.id = payload.id;
+        state.item.name = payload.name;
+        state.item.price = payload.price;
+        state.item.discountPer = payload.discountPer;
+        state.item.quantity = payload.quantity;
+      }
     }
   }
 )

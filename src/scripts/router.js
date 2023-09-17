@@ -19,7 +19,7 @@ const routes = [
     {path:'/signup',component: Signup},
     {path:'/produce',component: PushItem},
     {path:'/dashboard',component: Dashboard},
-    {path:'/product/:itemId',component: Item},
+    {path:'/product',component: Item},
 ]
 const router = createRouter({
     history: createWebHistory(),

@@ -8,16 +8,19 @@
                     <div class="needs-validation" novalidate="">
                         <div class="row g-3">
                             <div class="col-12"><label for="itemname" class="form-label">상품명</label>
-                                <span>{{state.item.name}}</span>
+                                <span>{{itemStore.name}}</span>
                             </div>
                             <div class="col-12"><label for="price" class="form-label">원가</label>
-                                <span>{{state.item.price}}</span>
+                                <span>{{itemStore.price}}</span>
                             </div>
                             <div class="col-12"><label for="discountPer" class="form-label">할인률</label>
-                                <span>{{state.item.discountPer}}</span>
+                                <span>{{itemStore.discountPer}}</span>
                             </div>
                             <div class="col-12"><label for="quantity" class="form-label">수량</label>
-                                <span>{{state.item.quantity}}</span>
+                                <span>{{itemStore.quantity}}</span>
+                            </div>
+                            <div class="col-12"><label for="imgPath" class="form-label">이미지</label>
+                                <span>{{itemStore.imgPath}}</span>
                             </div>
                             <div class="col-12"><label for="discuont" class="form-label">할인가</label>
                             </div>
@@ -36,7 +39,8 @@
 import axios from "axios";
 import {reactive} from "vue";
 import lib from '@/scripts/lib';
-import router from '@/scripts/router'
+import router from '@/scripts/router';
+import store from '@/scripts/store'
 
 
 export default {
@@ -45,11 +49,11 @@ export default {
         const state = reactive({
             item:"",
         })
-        axios.get("/api/seller/item/").then((res) => {
+        axios.get("/api/seller/item",).then((res) => {
             state.item = res.data;
         })
        
-        return {state,lib,router}
+        return {state,lib,router,store}
     }
 }
 </script>
