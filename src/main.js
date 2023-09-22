@@ -8,7 +8,6 @@ import axios from 'axios';
       config.headers["auth"] = "Bearer "+store.state.account.auth;
       return config;
     })
-// }
 
 createApp(App).use(store).use(router).mount('#app')
  

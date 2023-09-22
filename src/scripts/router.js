@@ -8,7 +8,7 @@ import PushItem from "@/pages/PushItem";
 import Dashboard from "@/pages/Dashboard";
 import Item from "@/pages/Item"
 
-import { createRouter, createWebHistory } from 'vue-router/dist/vue-router';
+import { createRouter, createWebHistory } from 'vue-router';
 
 const routes = [
     {path:'/',component: Home},
@@ -19,7 +19,7 @@ const routes = [
     {path:'/signup',component: Signup},
     {path:'/produce',component: PushItem},
     {path:'/dashboard',component: Dashboard},
-    {path:'/product',component: Item},
+    {path:'/item/:id',component: Item},
 ]
 const router = createRouter({
     history: createWebHistory(),
