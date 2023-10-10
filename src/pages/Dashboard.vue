@@ -103,7 +103,7 @@
                         <td>{{lib.getNumberFormatted(i.price - Math.ceil((i.price*i.discountPer/100)))}}원</td>
                         <td>{{i.discountPer}}%</td>
                         <td>
-                          <router-link v-bind:to="{path: `/item/${i.id}`}">수정하기</router-link>
+                          <router-link v-bind:to="{path: `/item/${i.id}`}">상세보기</router-link>
                         </td>
                     </tr>
               </tbody>

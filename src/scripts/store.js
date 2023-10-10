@@ -38,3 +38,8 @@ const store = createStore({
 )
 
 export default store;
+export const getters = {
+  getItem(state){
+    return state.item;
+  }
+}

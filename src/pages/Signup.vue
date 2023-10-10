@@ -13,7 +13,7 @@
 		<div class="form-group">
             <input type="password" class="form-control" id="floatingConfirmPassword" name="confirm_password" placeholder="Confirm Password *" @keyup.enter="submit()" v-model="state.form.confirmPassword">
         <div class="form-group">
-            <input type="checkbox" v-model="state.form.role" true-value="seller" false-value="user"> 판매자로 가입하기
+            <input type="checkbox" v-model="state.form.role" true-value="ROLE_SELLER" false-value="ROLE_USER"> 판매자로 가입하기
         </div>        
 		<div class="form-group">
             <button class="btn btn-primary w-100 py-2" @click="submit()">Sign in</button>

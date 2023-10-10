@@ -5,9 +5,12 @@
                 <div class="py-5 text-center">
                 <div class="col-md-7 col-lg-8">
                     <h4 class="mb-3">상품 현황</h4>
-                    <h4 class="mb-3">{{this.$route.params.itemId}}</h4>
                     <div class="needs-validation" novalidate="">
                         <div class="row g-3">
+                            <div class="card shadow-sm">
+                            <span class="img" :style= "{backgroundImage: `url(${this.imgPath})`}" />
+                            </div>
+                        
                             <div class="col-12"><label for="itemname" class="form-label">상품명</label>
                                 <input type="text" class="form-control" id="itemname"
                                         v-model="name">
@@ -24,13 +27,13 @@
                                     type="text" class="form-control" id="quantity"
                                     v-model="quantity">
                             </div>
-                            <div class="col-12"><label for="imageFiles" class="form-label">이미지</label><input
-                                 ref="image" type="file" @change="upload">
+                            <div class="col-12"><label for="imageFiles" class="form-label">이미지는 수정할 수 없습니다</label>
+                                <input ref="image" type="file" @change="upload">
                             </div>
                            
                         </div>
                             <hr class="my-4">
-                        <button class="w-100 btn btn-primary btn-lg" @click="submitPost">수정하기</button>
+                        <button class="w-100 btn btn-primary btn-lg" @click="Edit">수정하기</button>
                     </div>
                 </div>
             </div>
@@ -39,31 +42,74 @@
 </div></template>
 
 <script>
-import lib from '@/scripts/lib';
 import router from '@/scripts/router';
-import store from '@/scripts/store'
-import {reactive} from "vue";
-// import axios from "axios";
+import axios from 'axios';
 
 export default {
-    setup(){
-        const state = reactive({
-            item:{
-                id: 0,
-                name : "",
-                imgPath : "",
-                price : "",
-                discountPer: "",
-                quantity: ""
+    name : "item",
+    data(){
+        return{
+            name:"",
+            price:0,
+            discountPer:0,
+            quantity:0,
+            imgPath:"",
+            image:null,
+            imageUploaded: null
+        };
+    },
+    methods:{
+        upload() {
+            this.image = this.$refs.image.files[0] // 사용자가 올린 이미지
+            console.log(this.image)
+            this.imageUploaded = URL.createObjectURL(this.image)
+            },
+            Edit() {
+                const id = this.$route.params.itemId;
+                const dto = {
+                    name: this.name,
+                    price: this.price,
+                    discountPer:this.discountPer,
+                    quantity:this.quantity,
             }
+            const dtoToBlob = new Blob([JSON.stringify(dto)], {
+                type: 'application/json'
+            })
+
+            var formData = new FormData()
+
+            formData.append('itemRequest', dtoToBlob)
+            formData.append('image', this.image)
+            axios
+                .post(`/api/seller/item/${id}`, formData,{ withCredentials: true })
+                .then((res) => {
+                alert('수정 완료되었습니다.')
+                console.log(res.data)
+                router.push({path:"/dashboard"});
+            })
+        },
+    },
+    mounted(){
+        const index = this.$route.params.itemId;
+        axios.get(`/api/seller/item/${index}`).then((res)=>{
+            console.log(res.data)
+            this.name = res.data.name,
+            this.imgPath = res.data.imgPath,
+            this.price = res.data.price,
+            this.discountPer = res.data.discountPer,
+            this.quantity = res.data.quantity
         })
-        // axios.get(`api/seller/item`,this.$route.params.id).then((res)=>{
-        //     // console.log(this.$route.params.itemId)
-        //     state.item = res.data
-        // })
-        return {lib,router,store,state}
-    }
+        }
 }
+
 </script>
 
-<style scoped></style>
+<style scoped>
+.card .img{
+    display: inline-block;
+    width: 100%;
+    height: 250px;
+    object-fit: contain;
+    background-position: center;
+}
+</style>
